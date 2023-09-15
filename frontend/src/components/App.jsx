@@ -71,12 +71,12 @@ function App() {
   }, [navigate])
   useEffect(() => {
     if (loggedIn) {
-      setIsLoadingCards(true)
+      //setIsLoadingCards(true)
       Promise.all([api.getInfo(localStorage.jwt), api.getCards(localStorage.jwt)])
         .then(([dataUser, dataCards]) => {
           setCurrentUser(dataUser)
           setCards(dataCards)
-          setIsLoadingCards(false)
+         //setIsLoadingCards(false)
         })
         .catch((err) => console.error(`Ошибка при загрузке начальных данных ${err}`))
     }
