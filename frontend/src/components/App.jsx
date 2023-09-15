@@ -54,7 +54,21 @@ function App() {
   //   setLoggedIn(false)
   //   }
   // }, [navigate])
-
+  useEffect(() => {
+    if (localStorage.jwt) {
+      getUserData(localStorage.jwt)
+        .then(res => {
+          setDataUser(res.email)
+          setLoggedIn(true)
+          setIsCheckToken(false)
+          navigate('/')
+        })
+        .catch(err => console.log(`Ошибкак авторизации при повторном входе ${err}`))
+    } else {
+      setIsCheckToken(false)
+      setLoggedIn(false)
+    }
+  }, [navigate])
   useEffect(() => {
     if (loggedIn) {
       setIsLoadingCards(true)
@@ -67,6 +81,18 @@ function App() {
         .catch((err) => console.error(`Ошибка при загрузке начальных данных ${err}`))
     }
   }, [loggedIn])
+  // useEffect(() => {
+  //   if (loggedIn) {
+  //     //setIsLoadingCards(true)
+  //     Promise.all([api.getInfo(localStorage.jwt), api.getCards(localStorage.jwt)])
+  //       .then(([dataUser, dataCards]) => {
+  //         setCurrentUser(dataUser)
+  //         setCards(dataCards)
+  //         setIsLoadingCards(false)
+  //       })
+  //       .catch((err) => console.error(`Ошибка при загрузке начальных данных ${err}`))
+  //   }
+  // }, [loggedIn])
 
 function handleRegister(password, email) {
   register(password, email)
