@@ -32,7 +32,7 @@ function App() {
   const [headerEmail, setHeaderEmail] = useState("");
   //стейты карточки
   const [cards, setCards] = useState([]);
-  const [isLoadingCards, setIsLoadingCards] = useState(true);
+  //const [isLoadingCards, setIsLoadingCards] = useState(true);
   const [deleteCardId, setDeleteCardId] = useState("");
 //стейты для регистрации и логина
   const [isInfoTooltipSuccess, setIsInfoTooltipSuccess] = useState(false);
@@ -273,7 +273,7 @@ const handleLike = useCallback(
                 onAddPlace={handleAddPlaceClick}
                 onCardClick={handleCardClick}
                 onDelete={handleDeleteClick}
-                isLoading={isLoadingCards}
+                //isLoading={isLoadingCards}
                 cards={cards}
                 onCardLike={handleLike}
               />
