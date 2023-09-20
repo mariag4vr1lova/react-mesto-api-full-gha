@@ -32,7 +32,7 @@ function App() {
   const [headerEmail, setHeaderEmail] = useState("");
   //стейты карточки
   const [cards, setCards] = useState([]);
-  //const [isLoadingCards, setIsLoadingCards] = useState(true);
+  const [isLoadingCards, setIsLoadingCards] = useState(true);
   const [deleteCardId, setDeleteCardId] = useState("");
 //стейты для регистрации и логина
   const [isInfoTooltipSuccess, setIsInfoTooltipSuccess] = useState(false);
@@ -54,45 +54,19 @@ function App() {
   //   setLoggedIn(false)
   //   }
   // }, [navigate])
-  useEffect(() => {
-    if (localStorage.jwt) {
-      getUserData(localStorage.jwt)
-        .then(res => {
-          setDataUser(res.email)
-          setLoggedIn(true)
-          setIsCheckToken(false)
-          navigate('/')
-        })
-        .catch(err => console.log(`Ошибкак авторизации при повторном входе ${err}`))
-    } else {
-      setIsCheckToken(false)
-      setLoggedIn(false)
-    }
-  }, [navigate])
+
   useEffect(() => {
     if (loggedIn) {
-      //setIsLoadingCards(true)
+      setIsLoadingCards(true)
       Promise.all([api.getInfo(localStorage.jwt), api.getCards(localStorage.jwt)])
         .then(([dataUser, dataCards]) => {
           setCurrentUser(dataUser)
           setCards(dataCards)
-         //setIsLoadingCards(false)
+          setIsLoadingCards(false)
         })
         .catch((err) => console.error(`Ошибка при загрузке начальных данных ${err}`))
     }
   }, [loggedIn])
-  // useEffect(() => {
-  //   if (loggedIn) {
-  //     //setIsLoadingCards(true)
-  //     Promise.all([api.getInfo(localStorage.jwt), api.getCards(localStorage.jwt)])
-  //       .then(([dataUser, dataCards]) => {
-  //         setCurrentUser(dataUser)
-  //         setCards(dataCards)
-  //         setIsLoadingCards(false)
-  //       })
-  //       .catch((err) => console.error(`Ошибка при загрузке начальных данных ${err}`))
-  //   }
-  // }, [loggedIn])
 
 function handleRegister(password, email) {
   register(password, email)
