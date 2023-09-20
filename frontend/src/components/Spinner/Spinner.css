@@ -1,4 +1,4 @@
-/* .spinner {
+.spinner {
     width: 150px;
     height: 150px;
     background-image: url(../../images/loading.gif);
@@ -7,4 +7,4 @@
     background-position: center;
     align-self: start;
     justify-self: center;
-} */
+}

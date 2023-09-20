@@ -273,7 +273,7 @@ const handleLike = useCallback(
                 onAddPlace={handleAddPlaceClick}
                 onCardClick={handleCardClick}
                 onDelete={handleDeleteClick}
-                //isLoading={isLoadingCards}
+                isLoading={isLoadingCards}
                 cards={cards}
                 onCardLike={handleLike}
               />
