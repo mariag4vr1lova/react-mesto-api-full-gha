@@ -195,33 +195,22 @@ function handleAddPlaceSubmit(dataCard, reset) {
     )
     .finally(() => setIsSend(false));
 }
-const handleLike = useCallback(
-  (card) => {
-    const isLike = card.likes.some(
-      (element) => currentUser._id === element
-    );
-    if (isLike) {
-      api
-        .deleteLike(card._id, localStorage.jwt)
-        .then((res) => {
-          setCards((state) =>
-            state.map((c) => (c._id === card._id ? res : c))
-          );
-        })
-        .catch((error) => console.error("Ошибка при снятии лайка"`${error}`));
-    } else {
-      api
-        .addLike(card._id, localStorage.jwt)
-        .then((res) => {
-          setCards((state) =>
-            state.map((c) => (c._id === card._id ? res : c))
-          );
-        })
-        .catch((error) => console.error("Ошибка при установке лайка"`${error}`));
-    }
-  },
-  [currentUser._id]
-);
+const handleLike = useCallback((card) => {
+  const isLike = card.likes.some(element => currentUser._id === element)
+  if (isLike) {
+    api.deleteLike(card._id, localStorage.jwt)
+      .then(res => {
+        setCards(cards => cards.map((item) => item._id === card._id ? res : item))
+      })
+      .catch((err) => console.error(`Ошибка при снятии лайка ${err}`))
+  } else {
+    api.addLike(card._id, localStorage.jwt)
+      .then(res => {
+        setCards(cards => cards.map((item) => item._id === card._id ? res : item))
+      })
+      .catch((err) => console.error(`Ошибка при установке лайка ${err}`))
+  }
+}, [currentUser._id])
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page__content">

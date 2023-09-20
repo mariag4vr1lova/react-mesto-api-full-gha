@@ -32,17 +32,26 @@ import React from "react";
 //     </div>
 //     )
 // }
-function ButtonLike({ card, myId, onCardLike }) {
-    const isLike = card.likes.some((element) => myId === element);
+// function ButtonLike({ card, myId, onCardLike }) {
+//     const isLike = card.likes.some((element) => myId === element);
+//     return (
+//         <div className="element__like-container">
+//             <button
+//             className={`element__like ${isLike ? `element__like_active` : ""}`}
+//             type="button"
+//             onClick={() => onCardLike(card)}
+//             />
+//             <p className="element__counter">{card.likes.length}</p>
+//         </div>
+//     );
+// }
+function ButtonLike({ myid, card, onCardLike }) {
+    const isLike = card.likes.some(element => myid === element)
     return (
         <div className="element__like-container">
-            <button
-            className={`element__like ${isLike ? `element__like_active` : ""}`}
-            type="button"
-            onClick={() => onCardLike(card)}
-            />
-            <p className="element__counter">{card.likes.length}</p>
+            <button type="button" className={`element__like ${isLike ? 'element__like_active' : ''}`}  onClick={() => onCardLike(card)} />
+            <span className="elements__counter" >{card.likes.length}</span>
         </div>
-    );
+    )
 }
 export default ButtonLike

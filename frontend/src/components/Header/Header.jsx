@@ -1,5 +1,5 @@
 import logo from "../../images/logo.svg";
-import { Routes, Route, Link, useLocation, Navigate } from "react-router-dom";
+import { Routes, Route, Link, useLocation } from "react-router-dom";
 
 function Header({loggedIn, email, logOut}) {
   const location = useLocation();

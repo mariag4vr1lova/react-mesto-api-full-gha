@@ -16,11 +16,7 @@ function Card({card, onCardClick, onDelete, onCardLike}) {
         <div className="element__block">
             <h2 className="element__title">{card.name}</h2>
             <div className="element__like-container">
-            <ButtonLike
-                onCardLike={onCardLike}
-                card={card}
-                myId={currentUser._id}
-            />
+            <ButtonLike myid={currentUser._id} card={card} onCardLike={onCardLike} />
             </div>
             {currentUser._id === card.owner && (
             <button
