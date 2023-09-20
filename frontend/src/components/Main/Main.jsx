@@ -1,9 +1,9 @@
 import { useContext } from "react"
 import Card from "../Card/Card.jsx"
 import CurrentUserContext from  "../../contexts/CurrentUserContext"
-import Spinner from "../Spinner/Spinner.jsx"
+//import Spinner from "../Spinner/Spinner.jsx"
 
-function Main({onEditProfile, onAddPlace, onEditAvatar, onCardClick, onDelete, cards, isLoading}) {
+function Main({onEditProfile, onAddPlace, onEditAvatar, onCardClick, onDelete, cards}) {
     const currentUser = useContext(CurrentUserContext)
 
 
@@ -31,13 +31,9 @@ function Main({onEditProfile, onAddPlace, onEditAvatar, onCardClick, onDelete, c
         </section>
         <section>
             <ul className="elements">
-                {isLoading ? <Spinner/> : cards.map(data => {
-                return(
                     <li className="element" key = {data._id}>
                     <Card card = {data} onCardClick= {onCardClick} onDelete = {onDelete}/> 
                     </li>
-                    )
-                }) }
             </ul>
         </section>
     </main>
