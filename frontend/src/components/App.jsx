@@ -85,12 +85,12 @@ function handleRegister(password, email) {
 
 function handleLogin(data) {
   login(data)
-    .then((res) => {
-      if (res && res.token) {
-        localStorage.setItem("jwt", res.token);
-        navigate("/");
-        setHeaderEmail(data.email);
+    .then((data) => {
+      if (data && data.token) {
+        localStorage.setItem("jwt", data.token);
         setLoggedIn(true);
+        setHeaderEmail(data.email);
+        navigate("/", { replace: true });
       }
     })
     .catch((error) => {
