@@ -15,7 +15,7 @@ import Login from "./Login/Login.jsx";
 import Register from "./Register/Register.jsx";
 import InfoTooltip from "./InfoTooltip/InfoTooltip.jsx";
 import ProtectedRoute from "./ProtectedRoute/ProtectedRoute.jsx";
-import { register, login } from "../utils/auth.js";
+import { register, login, checkToken } from "../utils/auth.js";
 
 function App() {
   //стейты попапа
@@ -41,19 +41,19 @@ function App() {
   const navigate = useNavigate();
 
 
-  // useEffect(() => {
-  //   if (localStorage.jwt) {
-  //     checkToken(localStorage.jwt)
-  //     .then(res => {
-  //       setHeaderEmail(res.data.email)
-  //       setLoggedIn(true)
-  //       navigate('/')
-  //     })
-  //     .catch(error => console.error("Ошибка авторизации при повторном входе"`${error}`))
-  //   } else {
-  //   setLoggedIn(false)
-  //   }
-  // }, [navigate])
+  useEffect(() => {
+    if (localStorage.jwt) {
+      checkToken(localStorage.jwt)
+      .then(res => {
+        setHeaderEmail(res.data.email)
+        setLoggedIn(true)
+        navigate('/')
+      })
+      .catch(error => console.error("Ошибка авторизации при повторном входе"`${error}`))
+    } else {
+    setLoggedIn(false)
+    }
+  }, [navigate])
 
   useEffect(() => {
     if (loggedIn) {
