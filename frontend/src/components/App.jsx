@@ -32,7 +32,7 @@ function App() {
   const [headerEmail, setHeaderEmail] = useState("");
   //стейты карточки
   const [cards, setCards] = useState([]);
-  const [isLoadingCards, setIsLoadingCards] = useState(true);
+  //const [isLoadingCards, setIsLoadingCards] = useState(true);
   const [deleteCardId, setDeleteCardId] = useState("");
 //стейты для регистрации и логина
   const [isInfoTooltipSuccess, setIsInfoTooltipSuccess] = useState(false);
@@ -57,12 +57,12 @@ function App() {
 
   useEffect(() => {
     if (loggedIn) {
-      setIsLoadingCards(true)
+      //setIsLoadingCards(true)
       Promise.all([api.getInfo(localStorage.jwt), api.getCards(localStorage.jwt)])
         .then(([dataUser, dataCards]) => {
           setCurrentUser(dataUser)
           setCards(dataCards)
-          setIsLoadingCards(false)
+          //setIsLoadingCards(false)
         })
         .catch((err) => console.error(`Ошибка при загрузке начальных данных ${err}`))
     }
@@ -236,7 +236,7 @@ const handleLike = useCallback((card) => {
                 onAddPlace={handleAddPlaceClick}
                 onCardClick={handleCardClick}
                 onDelete={handleDeleteClick}
-                isLoading={isLoadingCards}
+                //isLoading={isLoadingCards}
                 cards={cards}
                 onCardLike={handleLike}
               />
