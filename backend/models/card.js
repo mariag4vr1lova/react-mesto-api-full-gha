@@ -4,18 +4,18 @@ const { urlRegex } = require('../utils/constants');
 const cardSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: [true, 'Поле "name" должно быть заполнено'],
-    minlength: [2, 'Минимальная длина поля "name" 2 символа'],
-    maxlength: [30, 'Максимальная длина поля "name" 30 символов'],
+    required: [true, 'Поле должно быть заполнено'],
+    minlength: [2, 'Минимальная длина поля - 2'],
+    maxlength: [30, 'Максимальная длина поля - 30'],
   },
   link: {
     type: String,
-    required: [true, 'Поле "link" должно быть заполнено'],
+    required: [true, 'Поле должно быть заполнено'],
     validate: {
-      validator(v) {
-        return urlRegex.test(v);
+      validator(url) {
+        return urlRegex.test(url);
       },
-      message: 'Не верный URL',
+      message: 'Введите URL',
     },
   },
   owner: {

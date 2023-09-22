@@ -1,38 +1,43 @@
 const baseUrl = " http://api.imamova.maria.nomoredomainsrocks.ru";
 
-function handleReply(res) {
+function checkResponse(res) {
   if (res.ok) {
     return res.json();
+  } else {
+    return Promise.reject(`Ошибка: ${res.status}`);
   }
-  return Promise.reject(`Ошибка: ${res.status}`);
 }
 
-export function register(data) {
+export const register = (data) => {
   return fetch(`${baseUrl}/signup`, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify(data),
-  }).then(handleReply);
-}
+  })
+    .then(checkResponse)
+};
 
-export function login(data) {
+export const login = (data) => {
   return fetch(`${baseUrl}/signin`, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify(data),
-  }).then(handleReply);
+  })
+    .then(checkResponse)
 }
 
-export function checkToken(token) {
+export const getContent = (token) => {
   return fetch(`${baseUrl}/users/me`, {
-    method: "GET",
+    method: 'GET',
     headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+      "Authorization": `Bearer ${token}`,
     },
-  }).then(handleReply);
+  })
+    .then(checkResponse)
 }
+

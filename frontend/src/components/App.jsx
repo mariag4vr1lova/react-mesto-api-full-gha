@@ -15,7 +15,7 @@ import Login from "./Login/Login.jsx";
 import Register from "./Register/Register.jsx";
 import InfoTooltip from "./InfoTooltip/InfoTooltip.jsx";
 import ProtectedRoute from "./ProtectedRoute/ProtectedRoute.jsx";
-import { register, login, checkToken } from "../utils/auth.js";
+import * as auth from "../utils/auth.js";
 
 function App() {
   //стейты попапа
@@ -32,28 +32,36 @@ function App() {
   const [headerEmail, setHeaderEmail] = useState("");
   //стейты карточки
   const [cards, setCards] = useState([]);
-  //const [isLoadingCards, setIsLoadingCards] = useState(true);
+  //const [isLoadingCards, setIsLoadingCards] = useState(false);
   const [deleteCardId, setDeleteCardId] = useState("");
 //стейты для регистрации и логина
   const [isInfoTooltipSuccess, setIsInfoTooltipSuccess] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
-  
+
   const navigate = useNavigate();
 
-
   useEffect(() => {
-    if (localStorage.jwt) {
-      checkToken(localStorage.jwt)
-      .then(res => {
-        setHeaderEmail(res.data.email)
-        setLoggedIn(true)
-        navigate('/')
-      })
-      .catch(error => console.error("Ошибка авторизации при повторном входе"`${error}`))
-    } else {
-    setLoggedIn(false)
+    tokenCheck();
+  }, [navigate]);
+
+  const tokenCheck = () => {
+    if (localStorage.getItem("jwt")) {
+      const jwt = localStorage.getItem("jwt");
+      if (jwt) {
+        auth.getContent(jwt)
+          .then((res) => {
+            if (res) {
+              setLoggedIn(true);
+              setHeaderEmail(res.email);
+              navigate("/", { replace: true });
+            }
+          })
+          .catch((error) => {
+            console.log(`Ошибка проверки токена - ${error}`);
+          });
+      }
     }
-  }, [navigate])
+  };
 
   useEffect(() => {
     if (loggedIn) {
@@ -68,23 +76,24 @@ function App() {
     }
   }, [loggedIn])
 
-function handleRegister(password, email) {
-  register(password, email)
-    .then((res) => {
-      if (res && res.data) {
-        setIsInfoTooltipSuccess(true);
-        navigate("/sign-in");
-      }
-    })
-    .catch((err) => {
-      setIsInfoTooltipSuccess(false);
-      console.log(err);
-    })
+function handleRegister(data) {
+  auth.register(data)
+  .then((data) => {
+    if (data) {
+      setIsInfoTooltipSuccess(true);
+      navigate("/sign-in", { replace: true });
+    }
+  })
+  .catch((error) => {
+    setIsInfoTooltipSuccess(false);
+    console.log(`Ошибка регистрации - ${error}`);
+  })
+
     .finally(() => setIsResultPopupOpen(true));
 }
 
 function handleLogin(data) {
-  login(data)
+  auth.login(data)
     .then((data) => {
       if (data && data.token) {
         localStorage.setItem("jwt", data.token);
@@ -166,6 +175,7 @@ function handleUpdateUser(dataUser, reset) {
       console.error("Ошибка при редактировании профиля"`${error}`)
     )
     .finally(() => setIsSend(false));
+    //setIsLoadingCards(true);
 }
 function handleUpdateAvatar(dataUser, reset) {
   setIsSend(true);
@@ -180,6 +190,7 @@ function handleUpdateAvatar(dataUser, reset) {
       console.error("Ошибка при редактировании ававтара"`${error}`)
     )
     .finally(() => setIsSend(false));
+    //setIsLoadingCards(true);
 }
 function handleAddPlaceSubmit(dataCard, reset) {
   setIsSend(true);
@@ -194,6 +205,7 @@ function handleAddPlaceSubmit(dataCard, reset) {
       console.error("Ошибка при добавлении карточки"`${error}`)
     )
     .finally(() => setIsSend(false));
+    //setIsLoadingCards(true);
 }
 const handleLike = useCallback((card) => {
   const isLike = card.likes.some(element => currentUser._id === element)
@@ -227,7 +239,7 @@ const handleLike = useCallback((card) => {
           />
           <Route
             path="/"
-            element={ 
+            element={
               <ProtectedRoute
                 loggedIn={loggedIn}
                 element={Main}
