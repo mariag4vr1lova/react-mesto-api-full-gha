@@ -9,7 +9,7 @@
 
 ## Ссылки на проект
 
-IP-адрес x.x.x.x
+IP-адрес 84.252.130.33
 
 Frontend http://imamova.maria.nomoredomainsrocks.ru/
 
