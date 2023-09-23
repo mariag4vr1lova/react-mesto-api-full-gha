@@ -109,6 +109,6 @@ class Api {
   }
 };
 const api = new Api({
-    baseUrl: 'http://localhost:3000',
+    baseUrl: 'http://api.imamova.maria.nomoredomainsrocks.ru',
 })
 export default api

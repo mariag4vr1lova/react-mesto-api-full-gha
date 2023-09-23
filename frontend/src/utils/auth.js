@@ -1,4 +1,4 @@
-const baseUrl = "http://localhost:3000";
+const baseUrl = "http://api.imamova.maria.nomoredomainsrocks.ru";
 
 function handleReply(res) {
   if (res.ok) {
