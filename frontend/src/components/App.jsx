@@ -164,7 +164,6 @@ function handleUpdateUser(dataUser, reset) {
       console.error("Ошибка при редактировании профиля"`${error}`)
     )
     .finally(() => setIsSend(false));
-    //setIsLoadingCards(true);
 }
 function handleUpdateAvatar(dataUser, reset) {
   setIsSend(true);
@@ -179,7 +178,6 @@ function handleUpdateAvatar(dataUser, reset) {
       console.error("Ошибка при редактировании ававтара"`${error}`)
     )
     .finally(() => setIsSend(false));
-    //setIsLoadingCards(true);
 }
 function handleAddPlaceSubmit(dataCard, reset) {
   setIsSend(true);
@@ -194,7 +192,6 @@ function handleAddPlaceSubmit(dataCard, reset) {
       console.error("Ошибка при добавлении карточки"`${error}`)
     )
     .finally(() => setIsSend(false));
-    //setIsLoadingCards(true);
 }
 const handleLike = useCallback((card) => {
   const isLike = card.likes.some(element => currentUser._id === element)
