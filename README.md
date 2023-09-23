@@ -9,8 +9,8 @@
 
 ## Ссылки на проект
 
-IP-адрес 84.252.130.33
+IP 84.252.130.33
 
-Frontend http://imamova.maria.nomoredomainsrocks.ru/
+Frontend https://imamova.maria.nomoredomainsrocks.ru/
 
 Backend https://api.imamova.maria.nomoredomainsrocks.ru
