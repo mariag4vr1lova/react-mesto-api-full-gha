@@ -1,4 +1,4 @@
-const baseUrl = "https://api.imamova.maria.nomoredomainsrocks.ru";
+const baseUrl = "http://api.imamova.maria.nomoredomainsrocks.ru";
 
 function handleReply(res) {
   if (res.ok) {
