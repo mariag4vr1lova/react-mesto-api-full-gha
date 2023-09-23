@@ -1,43 +1,41 @@
-const baseUrl = " http://api.imamova.maria.nomoredomainsrocks.ru";
+const baseUrl = "http://localhost:3000";
 
-function checkResponse(res) {
+function handleReply(res) {
   if (res.ok) {
     return res.json();
-  } else {
-    return Promise.reject(`Ошибка: ${res.status}`);
   }
+  return Promise.reject(`Ошибка: ${res.status}`);
 }
 
-export const register = (data) => {
+export function register(data) {
   return fetch(`${baseUrl}/signup`, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
     body: JSON.stringify(data),
-  })
-    .then(checkResponse)
-};
+  }).then(handleReply);
 
-export const login = (data) => {
-  return fetch(`${baseUrl}/signin`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(data),
-  })
-    .then(checkResponse)
 }
 
-export const getContent = (token) => {
-  return fetch(`${baseUrl}/users/me`, {
-    method: 'GET',
+export function login(data) {
+
+  return fetch(`${baseUrl}/signin`, {
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
-      "Authorization": `Bearer ${token}`,
+      "Content-Type": "application/json",
     },
-  })
-    .then(checkResponse)
+    body: JSON.stringify(data),
+  }).then(handleReply);
+}
+
+export function getContent(token) {
+  return fetch(`${baseUrl}/users/me`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  }).then(handleReply);
 }
 

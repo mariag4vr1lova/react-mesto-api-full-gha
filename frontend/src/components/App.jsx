@@ -18,6 +18,7 @@ import ProtectedRoute from "./ProtectedRoute/ProtectedRoute.jsx";
 import * as auth from "../utils/auth.js";
 
 function App() {
+  const navigate = useNavigate();
   //стейты попапа
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
@@ -38,59 +39,47 @@ function App() {
   const [isInfoTooltipSuccess, setIsInfoTooltipSuccess] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
 
-  const navigate = useNavigate();
+
 
   useEffect(() => {
-    tokenCheck();
-  }, [navigate]);
-
-  const tokenCheck = () => {
-    if (localStorage.getItem("jwt")) {
-      const jwt = localStorage.getItem("jwt");
-      if (jwt) {
-        auth.getContent(jwt)
-          .then((res) => {
-            if (res) {
-              setLoggedIn(true);
-              setHeaderEmail(res.email);
-              navigate("/", { replace: true });
-            }
-          })
-          .catch((error) => {
-            console.log(`Ошибка проверки токена - ${error}`);
-          });
-      }
+    if (localStorage.jwt) {
+      auth.getContent(localStorage.jwt)
+      .then(res => {
+        setHeaderEmail(res.email)
+        setLoggedIn(true)
+        navigate("/", { replace: true });
+      })
+      .catch(error => console.error("Ошибка авторизации при повторном входе"`${error}`))
+    } else {
+    setLoggedIn(false)
     }
-  };
+  }, [navigate])
 
   useEffect(() => {
     if (loggedIn) {
-      //setIsLoadingCards(true)
       Promise.all([api.getInfo(localStorage.jwt), api.getCards(localStorage.jwt)])
-        .then(([dataUser, dataCards]) => {
-          setCurrentUser(dataUser)
-          setCards(dataCards)
-          //setIsLoadingCards(false)
+        .then(([user, dataCard]) => {
+          setCurrentUser(user);
+          setCards(dataCard);
         })
-        .catch((err) => console.error(`Ошибка при загрузке начальных данных ${err}`))
+        .catch((error) => console.error("Ошибка при загрузке начальных данных"`${error}`))
     }
-  }, [loggedIn])
+  }, [loggedIn]);
 
-function handleRegister(data) {
-  auth.register(data)
-  .then((data) => {
-    if (data) {
-      setIsInfoTooltipSuccess(true);
-      navigate("/sign-in", { replace: true });
-    }
-  })
-  .catch((error) => {
-    setIsInfoTooltipSuccess(false);
-    console.log(`Ошибка регистрации - ${error}`);
-  })
-
-    .finally(() => setIsResultPopupOpen(true));
-}
+  function handleRegister(data) {
+    auth.register(data)
+      .then((data) => {
+        if (data) {
+          setIsInfoTooltipSuccess(true);
+          navigate("/sign-in");
+        }
+      })
+      .catch((err) => {
+        setIsInfoTooltipSuccess(false);
+        console.error(`Ошибкак при регистрации ${err}`);
+      })
+      .finally(() => setIsResultPopupOpen(true));
+  }
 
 function handleLogin(data) {
   auth.login(data)

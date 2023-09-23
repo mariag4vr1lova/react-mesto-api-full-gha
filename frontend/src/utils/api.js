@@ -2,15 +2,22 @@ class Api {
     constructor(options) {
       this._url = options.baseUrl;
     }
-    _checkRes(res) {return res.ok ? res.json() : Promise.reject}
-    
+    _checkRes(res) {
+      if (res.ok) {
+      return res.json();
+    } else {
+      return Promise.reject(res.status);
+    }}
+
     getInfo(token) {
       return fetch(`${this._url}/users/me`, {
         headers: {
           "Authorization": `Bearer ${token}`
         }
       })
-        .then(this._checkRes)
+      .then((res) => {
+        return this._checkRes(res);
+      });
     }
     getCards(token) {
       return fetch(`${this._url}/cards`, {
@@ -18,7 +25,9 @@ class Api {
           "Authorization": `Bearer ${token}`
         }
       })
-        .then(this._checkRes)
+      .then((res) => {
+        return this._checkRes(res);
+      });
     }
     setUserInfo(data, token) {
       return fetch(`${this._url}/users/me`, {
@@ -32,7 +41,9 @@ class Api {
           about: data.about
         }),
       })
-        .then(this._checkRes)
+      .then((res) => {
+        return this._checkRes(res);
+      });
     }
     setNewAvatar(data, token) {
       return fetch(`${this._url}/users/me/avatar`, {
@@ -45,7 +56,9 @@ class Api {
           avatar: data.avatar
         })
       })
-        .then(this._checkRes)
+      .then((res) => {
+        return this._checkRes(res);
+      });
     }
     addCard(data, token) {
       return fetch(`${this._url}/cards`, {
@@ -59,7 +72,9 @@ class Api {
           link: data.link
         })
       })
-        .then(this._checkRes)
+      .then((res) => {
+        return this._checkRes(res);
+      });
     }
   addLike(cardId, token) {
     return fetch(`${this._url}/cards/${cardId}/likes`, {
@@ -77,7 +92,9 @@ class Api {
         "Authorization": `Bearer ${token}`
       }
     })
-    .then(this._checkRes)
+    .then((res) => {
+      return this._checkRes(res);
+    });
   }
   deleteCard(cardId, token) {
     return fetch(`${this._url}/cards/${cardId}`, {
@@ -86,10 +103,12 @@ class Api {
         "Authorization": `Bearer ${token}`
       }
     })
-    .then(this._checkRes)
+    .then((res) => {
+      return this._checkRes(res);
+    });
   }
 };
 const api = new Api({
-    baseUrl: 'http://api.imamova.maria.nomoredomainsrocks.ru'
+    baseUrl: 'http://localhost:3000',
 })
 export default api
