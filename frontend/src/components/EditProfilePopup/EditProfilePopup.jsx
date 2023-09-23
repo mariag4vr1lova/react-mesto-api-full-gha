@@ -5,13 +5,17 @@ import PopupWithForm from "../PopupWithForm/PopupWithForm.jsx"
 
 function EditProfilePopup({isOpen, onClose, onUpdateUser, isSend}) {
     const currentUser = useContext(CurrentUserContext)
-    const {values, errors, isValid, isInputValid, handleChange, reset, setValue } = useFormValidation()
+    const {values, errors, isValid, isInputValid, handleChange, reset } = useFormValidation()
 
+    // useEffect(() => {
+    //     setValue("username", currentUser.name)
+    //     setValue("subtitle", currentUser.about)
+    // }, [currentUser, setValue])
     useEffect(() => {
-        setValue("username", currentUser.name)
-        setValue("subtitle", currentUser.about)
-    }, [currentUser, setValue])
-
+    if (isOpen) {
+      reset({ username: currentUser.name, subtitle: currentUser.about })
+    }
+  }, [currentUser, isOpen, reset])
     function resetForClose() {
         onClose()
         reset({username: currentUser.name, subtitle: currentUser.about})
@@ -19,10 +23,10 @@ function EditProfilePopup({isOpen, onClose, onUpdateUser, isSend}) {
     function handleSubmit(evt) {
         evt.preventDefault()
         onUpdateUser({username: values.username, subtitle: values.subtitle}, reset)
-    
+
     }
     return (
-    <PopupWithForm 
+    <PopupWithForm
         name='popup-profile'
         title = 'Редактировать профиль'
         isOpen = {isOpen}
