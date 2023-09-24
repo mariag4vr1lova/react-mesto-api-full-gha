@@ -59,7 +59,8 @@ function App() {
     if (loggedIn) {
       Promise.all([api.getInfo(localStorage.jwt), api.getCards(localStorage.jwt)])
         .then(([user, dataCard]) => {
-          setCurrentUser(user);
+          setCurrentUser({ ...currentUser, ...user });
+          //setCurrentUser(user);
           setCards(dataCard);
         })
         .catch((error) => console.error("Ошибка при загрузке начальных данных"`${error}`))
