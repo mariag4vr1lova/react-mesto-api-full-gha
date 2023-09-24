@@ -37,8 +37,8 @@ class Api {
           "Authorization": `Bearer ${token}`
         },
         body: JSON.stringify({
-          name: data.name,
-          about: data.about
+          name: data.username,
+          about: data.subtitle,
         }),
       })
       .then((res) => {
